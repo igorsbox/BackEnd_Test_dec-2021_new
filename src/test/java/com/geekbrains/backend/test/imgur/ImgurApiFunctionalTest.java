@@ -57,5 +57,57 @@ public class ImgurApiFunctionalTest extends FunctionalTest {
                 .when()
                 .post("image");
     }
+    @Test
+    void deleteImageTest() {
+        given()
+                .auth()
+                .oauth2(TOKEN)
+                .log()
+                .all()
+                .expect()
+                .body("data", is(true))
+                .body("success", is(true))
+                .body("status", is(200))
+                .log()
+                .all()
+                .when()
+                .delete("image/" + "BOl0cmX");
+    }
+    @Test
+    void testCreateComment() {
+        given()
+                .auth()
+                .oauth2(TOKEN)
+                .formParam("image_id", "b34pw0r")
+                .formParam("comment", "Yes, It's me!!! ;)")
+                .log()
+                .all()
+                .expect()
+                .body("success", is(true))
+                .body("status", is(200))
+                .log()
+                .all()
+                .when()
+                .post("comment");
+    }
+    @Test
+    void getImageTest() {
+        given()
+                .auth()
+                .oauth2(TOKEN)
+                .log()
+                .all()
+                .expect()
+                .body("data.name", is("Picture"))
+                .body("data.favorite", is(true))
+                .body("data.type", is("image/jpeg"))
+                .body("data.title", is("The best actress from Ukrain"))
+                .body("success", is(true))
+                .body("status", is(200))
+                .log()
+                .all()
+                .when()
+                .get("image/" + "b34pw0r");
+    }
 
 }
